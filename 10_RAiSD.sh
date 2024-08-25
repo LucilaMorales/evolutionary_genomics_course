@@ -37,7 +37,6 @@ wait
 
 vcf=path/to/vcf_files  # Replace with the directory containing VCF files
 list=$(cat "scaffolds/chr_list.txt")  # List of chromosomes or scaffolds
-
 for i in $list; do
     /path/to/RAiSD -n $i -I $vcf/${i}.recode.vcf -D -O -s -t -R -f
 done
