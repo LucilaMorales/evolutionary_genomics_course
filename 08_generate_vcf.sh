@@ -33,6 +33,6 @@ bcftools call -f GQ -vm -Oz -o $output_dir/{}.vcf.gz'
 echo "VCF generation completed for all chromosomes"
 
 # Note:
-# At the end of this process, one VCF file will be generated per chromosome of the reference genome.
+# At the end of this process, one VCF file will be generated per chromosome/scaffold of the reference genome.
 # Additionally, files may be generated for scaffold regions (unassembled regions). To ensure these
 # files are representative, scaffold regions should be larger than 50 Mb (ideally 100 Mb)
