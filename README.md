@@ -41,5 +41,3 @@ Extraction of genomic markers
 Sequence alignment
 Phylogenetic reconstruction
 
-__Bibliography for some of the tools covered in this course:__
-
