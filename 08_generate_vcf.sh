@@ -28,7 +28,7 @@ output_dir=  # Directory where the VCF files will be saved (e.g., "/path/to/outp
 
 cat $chromosome_list | \
 xargs -I {} -n 1 -P 4 sh -c 'bcftools mpileup -Ou -f $ref -b $bam_list -d 5000 -q 10 -Q 30 -a "FORMAT/AD,FORMAT/DP,INFO/AD" --skip-indels -r {} --rf 2 | \
-bcftools call -f GQ -mv/-m -Oz -o $output_dir/{}.vcf.gz' 
+bcftools call -f GQ -mv -Oz -o $output_dir/{}.vcf.gz' 
 
 echo "VCF generation completed for all chromosomes"
 
