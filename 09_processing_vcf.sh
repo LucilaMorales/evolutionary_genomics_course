@@ -12,10 +12,10 @@
 # reference sequences. `bcftools norm` is used to perform these normalization tasks.
 
 # Path to the reference genome file
-ref_rissa=/path/to/reference
+ref=/path/to/reference
 
 # Normalize the concatenated VCF file
-bcftools norm --check-ref w -f $ref_rissa/reference.fa -o norm.vcf.gz -Oz --threads file.vcf.gz
+bcftools norm --check-ref w -f $ref/reference.fa -o norm.vcf.gz -Oz --threads file.vcf.gz
 
 # Note:
 # - Normalization with `bcftools norm` ensures that the VCF file is standardized and corrects any
