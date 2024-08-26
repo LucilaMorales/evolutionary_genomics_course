@@ -16,7 +16,7 @@
 
 # Variables
 bam=  # Directory containing the sorted BAM files (e.g., "/path/to/sorted_bam")
-files="sample1 sample2 sample3"  # List of sample names (without file extensions)
+files="sample1 sample2 sample3 sample4 sample5 sample6"  # List of sample names (without file extensions)
 
 # Mark Duplicates
 # The following loop iterates through each sample and runs Picard's MarkDuplicates on the 
