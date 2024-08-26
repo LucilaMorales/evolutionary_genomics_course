@@ -14,7 +14,7 @@
 
 # Variables
 bam=  # Directory containing the input BAM files (e.g., "/path/to/bam")
-files="sample1 sample2 sample3"  # List of sample names (without file extensions)
+files="sample1 sample2 sample3 sample4 sample5 sample6"  # List of sample names (without file extensions)
 
 # Sorting BAM Files
 # The following loop iterates through each sample and sorts the corresponding BAM file.
@@ -22,12 +22,11 @@ files="sample1 sample2 sample3"  # List of sample names (without file extensions
 # - The output file will be saved with the suffix "_sorted.bam" in the same directory.
 
 for sample in $files; do
-  samtools sort -@ 4 \
+  samtools sort -@ \
   -o $bam/${sample}_sorted.bam \
   $bam/${sample}.bam
   
   echo "Sorting completed for $sample"
 done
 
-echo "All BAM files sorted successfully."
-
+echo "All BAM files sorted successfully"
