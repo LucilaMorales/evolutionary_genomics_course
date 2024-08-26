@@ -15,7 +15,7 @@
 # which is important for identifying the origin of the reads in downstream analyses.
 
 # Variables
-trm=  # Path to the trimmed FASTQ files (e.g., "/path/to/trimmed/sample_R1.fq.gz /path/to/trimmed/sample_R2.fq.gz")
+trm=  # Path to the trimmed FASTQ files (e.g., "/path/to/trimmed/sample_R1.fq.gz /path/to/trimmed/sample_R1.fq.gz")
 bam=  # Output path for the resulting BAM file (e.g., "/path/to/output/sample.bam")
 ref=  # Path to the reference genome index (e.g., "/path/to/reference_genome")
 
@@ -29,7 +29,7 @@ ref=  # Path to the reference genome index (e.g., "/path/to/reference_genome")
 #   apply quality filtering, and ensure that only properly paired reads are included.
 
 bwa-mem2 mem -t 4 -M -R '@RG\tID:sampleID\tLB:libraryID\tPL:ILLUMINA\tPU:unitID\tSM:sampleName' \
-$ref/reference_index $trm | \
-samtools view -bh -@ 4 -q 30 -f 0x2 > $bam
+$ref/reference_index $trm/sample1_R1.fq.gz $trm/sample1_R2.fq.gz | \
+samtools view -bh -@ -q 30 -f 0x2 > $bam/sample1.bam
 
 echo "Mapping completed and BAM file generated: $bam"
