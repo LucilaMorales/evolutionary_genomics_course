@@ -1,38 +1,47 @@
 #!/bin/bash
 
 # Description:
-# This script generates variant call format (VCF) files from BAM files using `bcftools`.
-# The script performs variant calling on each specified chromosome, producing VCF files
-# that contain information about variants across the specified regions. This step is essential
-# for identifying genetic variations in the samples, which are crucial for downstream analyses
-# such as association studies and genomic annotations.
+# This script generates a variant call format (VCF) file for a specific chromosome
+# using `bcftools`. It performs variant calling based on the provided BAM files and reference genome,
+# producing a VCF file that includes details on detected variants. The resulting VCF file is essential
+# for downstream genetic analyses such as association studies, variant annotation, and population genetics.
 
 # Tool:
-# `bcftools` is a set of tools for manipulating VCF and BCF files. In this script:
-# - `mpileup` is used to generate pileup data from BAM files, which contains read depth and variant
-#   information.
-# - `call` is used to perform variant calling and generate the VCF file from the pileup data.
+# `bcftools` is a set of utilities that manipulate VCF and BCF files. In this script:
+# - `mpileup` generates a pileup of sequence reads from the BAM files, which includes read depth and
+#   potential variant sites.
+# - `call` processes the pileup data to identify variants, creating a VCF file that lists the called variants.
 
 # Variables
-chromosome_list=  # File containing a list of chromosomes or regions to process (e.g., "chromosomes.txt")
-bam_list=  # File containing a list of BAM files to include in the analysis (e.g., "bam_list.txt")
-ref=  # Path to the reference genome fasta file (e.g., "/path/to/reference/reference.fna")
-output_dir=  # Directory where the VCF files will be saved (e.g., "/path/to/output_vcf")
+ref="/path/to/reference/reference.fa"  # Path to the reference genome fasta file
+bam_list="bam_list.txt"  # File containing a list of BAM files to include in the analysis
+output_dir="/path/to/output_vcf"  # Directory where the VCF file will be saved
 
-# Generate VCF Files
-# The following command reads each chromosome or region from the chromosome_list file,
-# and for each chromosome, it generates a VCF file using `bcftools`. The command:
-# - Uses `bcftools mpileup` to create a pileup of reads from the BAM files.
-# - Calls variants using `bcftools call`.
-# - Compresses the resulting VCF file using gzip.
+# Ensure the output directory exists
+mkdir -p $output_dir
 
-cat $chromosome_list | \
-xargs -I {} -n 1 -P 4 sh -c 'bcftools mpileup -Ou -f $ref -b $bam_list -d 5000 -q 10 -Q 30 -a "FORMAT/AD,FORMAT/DP,INFO/AD" --skip-indels -r {} --rf 2 | \
-bcftools call -f GQ -vm -Oz -o $output_dir/{}.vcf.gz' 
+# Generate VCF File for Mmenidia_chr24
+# The following command uses `bcftools mpileup` to generate a pileup from the BAM files, followed by
+# variant calling with `bcftools call`. The output is compressed and saved as Mmenidia_chr24.vcf.gz.
 
-echo "VCF generation completed for all chromosomes"
+bcftools mpileup -Ou -f $ref -b $bam_list -d 5000 -q 10 -Q 30 -a "FORMAT/AD,FORMAT/DP,INFO/AD" --skip-indels --rf 2 | \
+bcftools call -f GQ -vm -Oz -o $output_dir/file.vcf.gz
+
+# Explanation:
+# - `-f $ref`: Specifies the reference genome file.
+# - `-b $bam_list`: Uses the list of BAM files for input.
+# - `-d 5000`: Limits the maximum read depth to 5000 to prevent excessive computation and potential artifacts.
+# - `-q 10`: Sets the minimum mapping quality for reads to be included.
+# - `-Q 30`: Sets the minimum base quality for bases to be considered.
+# - `-a "FORMAT/AD,FORMAT/DP,INFO/AD"`: Annotates the VCF with allele depth (AD) and read depth (DP) information.
+# - `--skip-indels`: Excludes indels (insertions and deletions) from the analysis.
+# - `--rf 2`: Filters reads based on bitwise flag 2 (e.g., properly paired reads in Illumina data).
+# - `-f GQ`: Filters output by Genotype Quality.
+# - `-vm`: Uses the multiallelic caller to consider multiple alternative alleles at sites.
+# - `-Oz`: Outputs the VCF in compressed format (VCF.GZ).
+
+echo "VCF generation completed"
 
 # Note:
-# At the end of this process, one VCF file will be generated per chromosome/scaffold of the reference genome.
-# Additionally, files may be generated for scaffold regions (unassembled regions). To ensure these
-# files are representative, scaffold regions should be larger than 50 Mb (ideally 100 Mb)
+# The output VCF file (`file.vcf.gz`) will contain all the variants identified in the specified chromosome
+# across the input BAM files. This VCF file is essential for subsequent genetic analysis.
