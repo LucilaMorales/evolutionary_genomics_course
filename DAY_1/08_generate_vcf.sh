@@ -14,15 +14,15 @@
 
 # Variables
 ref="/path/to/reference/reference.fa"  # Path to the reference genome fasta file
-bam_list="bam_list.txt"  # File containing a list of BAM files to include in the analysis
+bam_list="bam_list"  # File containing a list of BAM files to include in the analysis
 output_dir="/path/to/output_vcf"  # Directory where the VCF file will be saved
 
 # Ensure the output directory exists
 mkdir -p $output_dir
 
-# Generate VCF File for Mmenidia_chr24
+# Generate VCF File
 # The following command uses `bcftools mpileup` to generate a pileup from the BAM files, followed by
-# variant calling with `bcftools call`. The output is compressed and saved as Mmenidia_chr24.vcf.gz.
+# variant calling with `bcftools call`. The output is compressed and saved.
 
 bcftools mpileup -Ou -f $ref -b $bam_list -d 5000 -q 10 -Q 30 -a "FORMAT/AD,FORMAT/DP,INFO/AD" --skip-indels --rf 2 | \
 bcftools call -f GQ -vm -Oz -o $output_dir/file.vcf.gz
