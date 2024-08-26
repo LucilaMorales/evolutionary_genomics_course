@@ -16,7 +16,7 @@
 # Variables
 ref=  # Path to the reference genome fasta file (e.g., "/path/to/reference/reference.fna")
 bam=  # Directory containing the BAM files with duplicates marked and realignment targets (e.g., "/path/to/dedup_bam")
-files="sample1 sample2 sample3"  # List of sample names (without file extensions)
+files="sample1 sample2 sample3 sample4 sample5 sample6"  # List of sample names (without file extensions)
 
 # Perform Indel Realignment
 # The following loop iterates through each sample and runs GATK's IndelRealigner
