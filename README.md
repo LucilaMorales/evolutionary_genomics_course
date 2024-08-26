@@ -41,3 +41,10 @@ Extraction of genomic markers
 Sequence alignment
 Phylogenetic reconstruction
 
+__DATA: Input files__
+
+We will work with subsets of different fastq files from each of three Atlantic silversides used in studies of fisheries-induced evolution (Therkildsen et al. 2019) and local adaptation (Wilder et al. 2020, Akopyan et al. 2022)
+
+Therkildsen, N. O., & Palumbi, S. R. (2017). Practical low-coverage genomewide sequencing of hundreds of individually barcoded samples for population and evolutionary genomics in nonmodel species. Molecular Ecology Resources, 17(2), 194–208. http://doi.org/10.1111/1755-0998.12593 
+Wilder, A. P., Palumbi, S. R., Conover, D. O., and Therkildsen, N. O. 2020. Footprints of local adaptation span hundreds of linked genes in the Atlantic silverside genome. Evolution Letters 9:177. https://doi.org/10.1002/evl3.189
+Akopyan, M., Tigano, A., Jacobs, A., Wilder, A. P., Baumann, H., and Therkildsen, N. O. (2022). Comparative linkage mapping uncovers massive chromosomal inversions that suppress recombination between locally adapted fish populations. Molecular Ecology 31:3323-3341. https://onlinelibrary.wiley.com/doi/abs/10.1111/mec.16472
