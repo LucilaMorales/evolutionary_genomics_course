@@ -25,5 +25,5 @@ DIRECTORY=  # Specify the directory where the FASTQ files are located
 
 ls $DIRECTORY/$FILE | xargs -I{} -P 4 fastqc -o $DIRECTORY -f fastq {}
 
-echo "Quality check completed for all specified FASTQ files."
+echo "Quality check completed for all specified FASTQ files"
 
