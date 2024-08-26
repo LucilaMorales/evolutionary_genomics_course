@@ -19,7 +19,7 @@ genomas="/path/to/genomes"  # Specify the path to the directory containing raw r
 trimmed="/path/to/trimmed"  # Specify the path to the directory where trimmed reads will be saved
 
 # List of samples to process
-files= # List your sample names here
+files="sample1 sample2 sample3 sample4 sample5 sample6" # List your sample names here
 
 # Loop through each sample and run fastp for trimming
 for sample in $files; do
