@@ -14,7 +14,7 @@
 # Path to the reference genome file
 ref=/path/to/reference
 
-# Normalize the concatenated VCF file
+# Normalize the VCF file
 bcftools norm --check-ref w -f $ref/reference.fa -o norm.vcf.gz -Oz --threads file.vcf.gz
 
 # Note:
