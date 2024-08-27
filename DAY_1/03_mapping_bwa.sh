@@ -2,34 +2,44 @@
 
 # Description:
 # This script maps trimmed sequencing reads to a reference genome using BWA-MEM2, 
-# a fast and accurate aligner for high-throughput sequencing reads. 
-# Mapping is a critical step in the analysis pipeline, allowing the alignment of sequencing reads 
-# to the reference genome, which is essential for downstream tasks like variant calling, 
-# assembly, and other genomic analyses.
+# a fast and accurate aligner optimized for high-throughput sequencing data. 
+# Mapping aligns sequencing reads to the reference genome, generating a BAM file 
+# essential for downstream analyses such as variant calling, assembly, and other genomic studies.
 
 # Tool:
-# BWA-MEM2 is an enhanced version of BWA-MEM, optimized for performance and speed, 
-# especially when dealing with large genomes. It aligns reads to the reference genome, 
-# generating a Sequence Alignment/Map (SAM) file, which can be further processed with tools like samtools.
-# The mapping process incorporates information about the sequencing run, including the read group, 
-# which is important for identifying the origin of the reads in downstream analyses.
+# BWA-MEM2 is an advanced version of BWA-MEM designed for improved performance and speed, 
+# especially for large genomes. It generates a Sequence Alignment/Map (SAM) file, which 
+# is then converted to a BAM file using samtools. The mapping includes read group information 
+# for better downstream processing.
 
 # Variables
-trm=  # Path to the trimmed FASTQ files (e.g., "/path/to/trimmed/sample_R1.fq.gz /path/to/trimmed/sample_R1.fq.gz")
-bam=  # Output path for the resulting BAM file (e.g., "/path/to/output/sample.bam")
-ref=  # Path to the reference genome index (e.g., "/path/to/reference_genome")
+trm=  # Path to the directory containing trimmed FASTQ files (e.g., "/path/to/trimmed/")
+bam=  # Path to the output directory for BAM files (e.g., "/path/to/output/")
+ref=  # Path to the reference genome (e.g., "/path/to/reference_genome.fa")
 
 # Mapping with BWA-MEM2
-# The command below uses BWA-MEM2 to align the trimmed reads to the reference genome.
-# - The `-t` option specifies the number of threads to use.
-# - The `-M` flag marks shorter split hits as secondary (useful for Picard compatibility).
-# - The `-R` option adds read group information, which includes details like the sample ID (SM), platform (PL), 
-#   and other metadata necessary for downstream processing.
-# - The output is piped directly into samtools to convert the SAM file to a BAM file, 
-#   apply quality filtering, and ensure that only properly paired reads are included.
+# The following command aligns the trimmed reads to the reference genome:
+# - `-t` specifies the number of threads to use.
+# - `-M` marks shorter split hits as secondary, which is useful for compatibility with Picard tools.
+# - `-R` specifies read group information, which includes sample ID (SM), library ID (LB), platform (PL), 
+#   and other metadata. Replace placeholders with actual values.
+# - The output SAM file is piped to `samtools view` to convert it to a BAM file, apply quality filtering, 
+#   and ensure that only properly paired reads are included.
 
 bwa-mem2 mem -t 4 -M -R '@RG\tID:sampleID\tLB:libraryID\tPL:ILLUMINA\tPU:unitID\tSM:sampleName' \
-$ref/reference_index $trm/sample1_R1.fq.gz $trm/sample1_R2.fq.gz | \
-samtools view -bh -@ -q 30 -f 0x2 > $bam/sample1.bam
+$ref $trm/sample1_R1.fq.gz $trm/sample1_R2.fq.gz | \
+samtools view -bh -@ 4 -q 30 -f 0x2 > $bam/sample1.bam
 
-echo "Mapping completed and BAM file generated: $bam"
+echo "Mapping completed and BAM file generated: $bam/sample1.bam"
+
+# Preparing Reference Genome:
+# Before mapping, ensure that the reference genome is properly indexed:
+# - Index the reference genome using BWA-MEM2.
+# - Create a sequence dictionary for the reference using Picard.
+# - Generate a FASTA index file using samtools.
+
+bwa-mem2 index $ref $ref.index
+picard CreateSequenceDictionary -R $ref -O $ref.dict
+samtools faidx $ref
+
+echo "Reference genome preparation completed: $ref.index, $ref.dict, $ref.fai"
