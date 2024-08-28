@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Directorios base
-practico=/Users/dalynoll/Dropbox/PRESENTACIONES_CHARLAS_Y_SEMINARIOS/2024_curso_Genomica-Valdivia/Practico_dia3/practico
+practico=/ruta/directorio/dia3
 agat="$practico/cds/1_agat"
 normalized="$practico/cds/1_agat_normalized"
 
