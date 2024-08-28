@@ -1,5 +1,7 @@
 #!/bin/bash
 
+conda activate mafft
+
 # Directorios base
 practico="/ruta/directorio/dia3"
 grouped="$practico/cds/grouped"
