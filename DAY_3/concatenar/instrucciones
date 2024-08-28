@@ -1,3 +1,5 @@
 # Para concatenar, utilice el script de perl adjunto de la siguiente manera (dentro de la carpeta aligned):
 
-./catfasta2phyml.pl -c -f *al.fasta > gentooConcat.fasta 2> partitions.txt
+concat=/ruta/directorio/concat
+
+./catfasta2phyml.pl -c -f *al.fasta > $concat/gentooConcat.fasta 2> $concat/partitions.txt
